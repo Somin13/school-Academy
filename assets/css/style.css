@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+}
+
+header{
+    background-color: aqua;
+}
+
+#promos-container{
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+}
+
+.promos-block{
+    border: 1px solid black;
+    gap: 50px;
+}
+
+.inputContenaire{
+    display: flex;
+    flex-direction: column;
+}
+

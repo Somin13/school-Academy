@@ -4,19 +4,20 @@ let studentName = document.querySelector("#student");
 const API_KEY = "c4f79550-9f4a-4ff8-8775-8e848412d687";
 const URL_API = "http://146.59.242.125:3009";
 
-// Création du bouton "Ajouter une promo"
+//------ Création du bouton "Ajouter une promo"
 let addPromoBtn = document.createElement("button");
 addPromoBtn.textContent = "Ajouter une promo";
 addPromoBtn.classList.add("add-promo-btn");
 promoContainer.parentElement.insertBefore(addPromoBtn, promoContainer);
 
-// Gestionnaire d'événement pour afficher le formulaire d'ajout
 addPromoBtn.addEventListener("click", () => {
     displayAddPromoForm();
 });
 
+//----- Fonction pour gerer les API des promos
+
 async function getPromo() {
-    const response = await fetch(URL_API + "/promos", {
+    const response = await fetch(URL_API + "/promos/", {
         method: "GET",
         headers: {
             authorization: "Bearer " + API_KEY,
@@ -30,7 +31,7 @@ async function getPromo() {
 async function namePromo(data) {
     promoContainer.textContent = "";
 
-    data.forEach((element) => {
+    data.forEach((element) => { 
         let promoBlock = document.createElement("article");
         promoBlock.classList.add("promos-block");
 
@@ -55,7 +56,7 @@ async function namePromo(data) {
         promoBlock.appendChild(btnContainer);
 
         let deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "supprimer";
+        deleteBtn.innerHTML = '<ion-icon name="trash-sharp"></ion-icon>'
         promoBlock.classList.add("delet-btn");
         btnContainer.appendChild(deleteBtn);
 
@@ -65,13 +66,18 @@ async function namePromo(data) {
         });
 
         let editBtn = document.createElement("button");
-        editBtn.textContent = "Modifier";
+        editBtn.innerHTML = '<ion-icon name="add-circle-sharp"></ion-icon>'
         editBtn.classList.add("Edit-Btn");
         btnContainer.appendChild(editBtn);
 
         editBtn.addEventListener("click", () => {
             displayFormUpdate(promoBlock, element);
         });
+
+        let seeMore = document.createElement("a")
+        seeMore.href = `student.html?id=${element._id}`
+        seeMore.innerHTML = '<ion-icon name="eye-sharp"></ion-icon>'
+        btnContainer.appendChild(seeMore)
 
         promoContainer.appendChild(promoBlock);
     });
@@ -86,6 +92,7 @@ function displayFormUpdate(element, promo) {
     element.appendChild(inputName);
 
     const inputStartdate = document.createElement("input");
+    inputStartdate.classList.add("stardate")
     inputStartdate.value = new Date(promo.startDate).toISOString().split("T")[0];
     inputStartdate.type = "date";
     element.appendChild(inputStartdate);
@@ -96,7 +103,8 @@ function displayFormUpdate(element, promo) {
     element.appendChild(inputEndDate);
 
     let submitBtn = document.createElement("button");
-    submitBtn.textContent = "Valider";
+    submitBtn.classList.add("sub-btn")
+    submitBtn.textContent = "Enregistrer";
     element.appendChild(submitBtn);
 
     submitBtn.addEventListener("click", () => {
@@ -108,7 +116,8 @@ function displayFormUpdate(element, promo) {
     });
 
     let cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Cancel";
+    cancelBtn.classList.add("cancel-btn")
+    cancelBtn.textContent = "Annuler";
     element.appendChild(cancelBtn);
 
     cancelBtn.addEventListener("click", () => {
@@ -136,10 +145,12 @@ function displayAddPromoForm() {
     inputEndDate.required = true;
 
     const submitBtn = document.createElement("button");
+    submitBtn.classList.add("ok-btn")
     submitBtn.textContent = "Ajouter";
     submitBtn.type = "submit"; 
 
     const cancelAdd = document.createElement("button")
+    cancelAdd.classList.add("annul-btn")
     cancelAdd.textContent = "Annuler"
     
 
